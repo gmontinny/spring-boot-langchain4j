@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- ChangeSet 1: Tabela de Roles -->
+    <changeSet id="001-create-roles-table" author="gmontinny">
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <insert tableName="roles">
+            <column name="name" value="ROLE_USER"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
+    </changeSet>
+
+    <!-- ChangeSet 2: Tabela de Usuários -->
+    <changeSet id="002-create-users-table" author="gmontinny">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Relacionamento Usuários e Roles (M:N) -->
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_user_roles_user" references="users(id)"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_user_roles_role" references="roles(id)"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="user_roles" columnNames="user_id, role_id" constraintName="pk_user_roles"/>
+    </changeSet>
+
+    <!-- ChangeSet 3: Tabela de Refresh Tokens -->
+    <changeSet id="003-create-refresh-tokens-table" author="gmontinny">
+        <createTable tableName="refresh_tokens">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="expiry_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_refresh_token_user" references="users(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- ChangeSet 4: Tabela de Restaurantes (Ingestão CSV) -->
+    <changeSet id="004-create-restaurants-table" author="gmontinny">
+        <createTable tableName="restaurants">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country_code" type="INT"/>
+            <column name="city" type="VARCHAR(150)"/>
+            <column name="address" type="VARCHAR(500)"/>
+            <column name="locality" type="VARCHAR(255)"/>
+            <column name="locality_verbose" type="VARCHAR(500)"/>
+            <column name="longitude" type="DECIMAL(12, 8)"/>
+            <column name="latitude" type="DECIMAL(12, 8)"/>
+            <column name="cuisines" type="VARCHAR(500)"/>
+            <column name="average_cost_for_two" type="DECIMAL(10, 2)"/>
+            <column name="currency" type="VARCHAR(50)"/>
+            <column name="has_table_booking" type="BOOLEAN"/>
+            <column name="has_online_delivery" type="BOOLEAN"/>
+            <column name="is_delivering_now" type="BOOLEAN"/>
+            <column name="switch_to_order_menu" type="BOOLEAN"/>
+            <column name="price_range" type="INT"/>
+            <column name="aggregate_rating" type="DECIMAL(3, 1)"/>
+            <column name="rating_color" type="VARCHAR(50)"/>
+            <column name="rating_text" type="VARCHAR(50)"/>
+            <column name="votes" type="INT"/>
+        </createTable>
+        <createIndex tableName="restaurants" indexName="idx_restaurant_city">
+            <column name="city"/>
+        </createIndex>
+        <createIndex tableName="restaurants" indexName="idx_restaurant_cuisines">
+            <column name="cuisines"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

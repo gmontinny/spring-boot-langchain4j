@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: langchain4j
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/langchain4j_db}
+    username: ${SPRING_DATASOURCE_USERNAME:gmontinny}
+    password: ${SPRING_DATASOURCE_PASSWORD:Gmontinny2026}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+
+# Configurações de Segurança e JWT
+security:
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000} # 24 horas
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:604800000} # 7 dias
+
+# Rate Limit Configuração (Bucket4j)
+ratelimit:
+  capacity: ${RATE_LIMIT_CAPACITY:20}
+  tokens: ${RATE_LIMIT_TOKENS:20}
+  refill-minutes: ${RATE_LIMIT_REFILL_MINUTES:1}
+
+# Google Gemini / LangChain4j Configuração
+gemini:
+  api-key: ${GEMINI_API_KEY:AIzaSyDjvSqrrGcA7iwNIfkBz_B9vshmtbmEVFo}
+  model-name: ${GEMINI_MODEL_NAME:gemini-2.5-flash}
+  temperature: ${GEMINI_TEMPERATURE:0.3}
+
+# Ingestão de CSV
+csv:
+  file-path: ${CSV_FILE_PATH:data/Zomato Restaurant Dataset.csv}
+  auto-ingest-on-startup: ${CSV_AUTO_INGEST:true}
+
+# Swagger / OpenAPI Springdoc
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    tryItOutEnabled: true
