@@ -61,7 +61,7 @@ Configurações padrão:
 | `JWT_SECRET` | `404E6352...` | Chave secreta de assinatura JWT |
 | `JWT_EXPIRATION_MS` | `86400000` (24h) | Expiração do token de acesso |
 | `JWT_REFRESH_EXPIRATION_MS` | `604800000` (7d) | Expiração do refresh token |
-| `GEMINI_API_KEY` | `AIzaSyDjvSqrrGcA7iwNIfkBz_B9vshmtbmEVFo` | Chave de API do Google Gemini |
+| `GEMINI_API_KEY` | `your_google_gemini_api_key_here` | Chave de API do Google Gemini |
 | `GEMINI_MODEL_NAME` | `gemini-2.5-flash` | Modelo de IA do Google Gemini (ex: `gemini-2.5-flash`, `gemini-2.5-pro`) |
 | `RATE_LIMIT_CAPACITY` | `20` | Capacidade máxima de requisições por janela |
 | `RATE_LIMIT_REFILL_MINUTES` | `1` | Tempo de recarga de tokens do rate limit |
