@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class LangChain4jConfig {
 
-    @Value("${gemini.api-key:AIzaSyDjvSqrrGcA7iwNIfkBz_B9vshmtbmEVFo}")
+    @Value("${gemini.api-key:}")
     private String apiKey;
 
     @Value("${gemini.model-name:gemini-2.5-flash}")

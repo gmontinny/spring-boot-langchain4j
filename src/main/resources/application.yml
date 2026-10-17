@@ -33,7 +33,7 @@ ratelimit:
 
 # Google Gemini / LangChain4j Configuração
 gemini:
-  api-key: ${GEMINI_API_KEY:AIzaSyDjvSqrrGcA7iwNIfkBz_B9vshmtbmEVFo}
+  api-key: ${GEMINI_API_KEY:-}
   model-name: ${GEMINI_MODEL_NAME:gemini-2.5-flash}
   temperature: ${GEMINI_TEMPERATURE:0.3}
 
